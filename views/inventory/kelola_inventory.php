@@ -1,3 +1,5 @@
+<?php require_once '../../system/init.php'; ?>
+
 <?php require_once '../layout/header.php'; ?>
 
 <?php
@@ -19,7 +21,21 @@ if(!$stmt->execute()) {
 
 $result = $stmt->get_result();
 
+// Check if there are any items with zero or low stock
+$low_stock_query = "SELECT COUNT(*) as low_stock_count FROM inventory WHERE kuantitas <= 0";
+$low_stock_stmt = $conn->prepare($low_stock_query);
+$low_stock_stmt->execute();
+$low_stock_result = $low_stock_stmt->get_result()->fetch_assoc();
+$low_stock_count = $low_stock_result['low_stock_count'];
 ?>
+
+<?php if($low_stock_count > 0): ?>
+<div class="container-fluid mt-3">
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>Peringatan!</strong> Terdapat <?= $low_stock_count ?> barang dengan stok habis.
+    </div>
+</div>
+<?php endif; ?>
 
 <section class="mt-3" id="content">
     <div class="container-fluid">
@@ -46,7 +62,7 @@ $result = $stmt->get_result();
                                 <tbody>
                                     <?php $i = 1; ?>
                                     <?php while($row = $result->fetch_assoc()) : ?>
-                                    <tr>
+                                    <tr class="<?= $row['kuantitas'] <= 0 ? 'table-danger' : '' ?>">
                                         <td><?= $i ?></td>
                                         <td><?= $row['nama_barang'] ?></td>
                                         <td><?= $row['jenis_barang'] ?></td>
@@ -72,3 +88,5 @@ $result = $stmt->get_result();
 </section>
 
 <?php require_once '../layout/footer.php'; ?>
+
+</document_content>

@@ -30,10 +30,6 @@ function insertData($conn) {
             throw new Exception("Jenis Barang tidak boleh kosong");            
         }
 
-        if(!isset($_POST['kuantitas']) || empty($_POST['kuantitas'])) {
-            throw new Exception("kuantitas tidak boleh kosong");            
-        }
-
         if(!isset($_POST['id_gudang']) || empty($_POST['id_gudang'])) {
             throw new Exception("ID Gudang tidak boleh kosong");            
         }
@@ -85,10 +81,6 @@ function updateData($conn) {
 
         if(!isset($_POST['jenis_barang']) || empty($_POST['jenis_barang'])) {
             throw new Exception("Jenis Barang tidak boleh kosong");            
-        }
-
-        if(!isset($_POST['kuantitas']) || empty($_POST['kuantitas'])) {
-            throw new Exception("kuantitas tidak boleh kosong");            
         }
 
         if(!isset($_POST['id_gudang']) || empty($_POST['id_gudang'])) {
